@@ -1,6 +1,8 @@
+using javis86.Contracts;
+
 namespace javis86.geolocalizador.api.Application.Models
 {
-    public class GeolocalizacionModel
+    public class GeolocalizacionModel :  ISearchGeolocalization
     {
         public string Calle { get; set; } 
         public string Numero { get; set; }

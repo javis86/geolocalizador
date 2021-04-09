@@ -6,7 +6,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.0.7" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.7" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\javis86.Contracts\javis86.Contracts.csproj" />
+  </ItemGroup>
 </Project>

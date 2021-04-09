@@ -7,6 +7,13 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="MassTransit.Analyzers" Version="7.0.7" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.0.7" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\javis86.Contracts\javis86.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

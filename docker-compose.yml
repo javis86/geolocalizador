@@ -11,14 +11,37 @@ services:
       - 27017:27017
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  
+  rabbitmq:
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    image: rabbitmq:3-management
 
-  webapi.mongodb:
+  javis86.geolocalizador.api:
     container_name: javis86.geolocalizador.api
     ports:
       - 5002:80
     image: javis86.geolocalizador.api
     build:
-      context: src/javis86.geolocalizador.api/.
+      context: src/.
+      dockerfile: javis86.geolocalizador.api/Dockerfile
     restart: on-failure
     depends_on:
       - mongodb
+      - rabbitmq
+        
+  javis86.geolocalizador.geolocalizador:
+    container_name: javis86.geolocalizador.geolocalizador    
+    image: javis86.geolocalizador.geolocalizador
+    build:
+      context: src/.
+      dockerfile: javis86.geolocalizador.geolocalizador/Dockerfile
+    restart: on-failure
+    depends_on:
+      - mongodb
+      - rabbitmq

@@ -1,5 +1,7 @@
 using javis86.geolocalizador.api.Infrastructure;
 using javis86.geolocalizador.api.Infrastructure.Data;
+using MassTransit;
+using MassTransit.RabbitMqTransport.Topology.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,16 @@ namespace javis86.geolocalizador.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            services.AddMassTransit(configurator =>
+            {
+                configurator.UsingRabbitMq((context, factoryConfigurator) =>
+                {
+                    factoryConfigurator.Host("rabbitmq://rabbitmq");
+                });
+                
+            });
+            services.AddMassTransitHostedService();
             
             // MongoDB
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
