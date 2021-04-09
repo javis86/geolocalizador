@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using javis86.geolocalizador.api.Application.Models;
 using javis86.geolocalizador.api.Core;
 using javis86.geolocalizador.api.Infrastructure;
@@ -22,15 +23,17 @@ namespace javis86.geolocalizador.api.Application.Controllers
         {
             var geolocalizacion = new Geolocalizacion(model);
 
+            _geolocalizacionRepository.Add(geolocalizacion);
+
             // Notificar RabbitMQ
             
             return Accepted(geolocalizacion.Id);
         }
         
         [HttpGet]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(string id)
         {
-            var geolocalizacion = _geolocalizacionRepository.Get(id);
+            var geolocalizacion = await _geolocalizacionRepository.Get(Guid.Parse(id));
             return Ok(geolocalizacion);
         }
     }

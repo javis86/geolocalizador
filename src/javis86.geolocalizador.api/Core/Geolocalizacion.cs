@@ -1,6 +1,8 @@
 using System;
 using javis86.geolocalizador.api.Application.Controllers;
 using javis86.geolocalizador.api.Application.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace javis86.geolocalizador.api.Core
 {
@@ -23,6 +25,7 @@ namespace javis86.geolocalizador.api.Core
             Longitud = longitud;
         }
 
+        [BsonId]
         public Guid Id { get; set; }
         public string Calle { get; set; } 
         public string Numero { get; set; }

@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using javis86.geolocalizador.api.Infrastructure;
+using javis86.geolocalizador.api.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace javis86.geolocalizador.api
@@ -27,6 +22,14 @@ namespace javis86.geolocalizador.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            // MongoDB
+            services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
+            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.AddSingleton<IMongoClientService, MongoClientService>();
+            
+            services.AddTransient<IGeolocalizacionRepository,GeolocalizacionRepository>();
+            
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "javis86.geolocalizador.api", Version = "v1"}); });
         }
 

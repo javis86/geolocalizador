@@ -7,6 +7,6 @@ namespace javis86.geolocalizador.api.Infrastructure
     public interface IGeolocalizacionRepository
     {
         Task Add(Geolocalizacion geolocalizacion);
-        Task Get(Guid id);
+        Task<Geolocalizacion> Get(Guid id);
     }
 }
