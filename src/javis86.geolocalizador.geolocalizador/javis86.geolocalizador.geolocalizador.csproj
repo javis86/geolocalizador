@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0.0" />
+    <PackageReference Include="Nominatim.API" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
