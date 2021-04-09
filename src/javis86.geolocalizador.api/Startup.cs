@@ -1,7 +1,7 @@
+using javis86.geolocalizador.api.Application.Consumers;
 using javis86.geolocalizador.api.Infrastructure;
 using javis86.geolocalizador.api.Infrastructure.Data;
 using MassTransit;
-using MassTransit.RabbitMqTransport.Topology.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,8 +30,10 @@ namespace javis86.geolocalizador.api
                 configurator.UsingRabbitMq((context, factoryConfigurator) =>
                 {
                     factoryConfigurator.Host("rabbitmq://rabbitmq");
+                    factoryConfigurator.ConfigureEndpoints(context);
                 });
-                
+               
+                configurator.AddConsumer<SearchResultConsumer>();
             });
             services.AddMassTransitHostedService();
             
@@ -51,7 +53,6 @@ namespace javis86.geolocalizador.api
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "javis86.geolocalizador.api v1"));
-
 
             app.UseRouting();
             app.UseAuthorization();

@@ -10,6 +10,7 @@ namespace javis86.geolocalizador.api.Core
     {
         public Geolocalizacion(GeolocalizacionModel model)
         {
+            Estado = "PROCESANDO";
             Id = Guid.NewGuid();
             Calle = model.Calle;
             Numero = model.Numero;
@@ -23,6 +24,7 @@ namespace javis86.geolocalizador.api.Core
         {
             Latitud = latitud;
             Longitud = longitud;
+            Estado = "TERMINADO";
         }
 
         [BsonId]
@@ -35,5 +37,14 @@ namespace javis86.geolocalizador.api.Core
         public string Pais { get; set; }
         public double? Latitud { get; set; }
         public double? Longitud { get; set; }
+
+        public string Estado { get; private set; }
+
+        public void MarcarComoNoLocalizado()
+        {
+            Estado = "ERROR NO ENCONTRADO";
+        }
     }
+
+    
 }

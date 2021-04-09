@@ -1,10 +1,9 @@
 using System;
-using javis86.geolocalizador.api.Infrastructure.Data;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 
-namespace javis86.geolocalizador.api
+namespace javis86.geolocalizador.api.Infrastructure.Data
 {
     public class MongoClientService : IMongoClientService
     {

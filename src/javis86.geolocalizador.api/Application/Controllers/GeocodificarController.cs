@@ -11,7 +11,7 @@ namespace javis86.geolocalizador.api.Application.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GeocodificarController : ControllerBase
+    public partial class GeocodificarController : ControllerBase
     {
         private readonly IGeolocalizacionRepository _geolocalizacionRepository;
         private readonly ISendEndpointProvider _sendEndpointProvider;
@@ -27,18 +27,31 @@ namespace javis86.geolocalizador.api.Application.Controllers
         {
             var geolocalizacion = new Geolocalizacion(model);
 
-            await _geolocalizacionRepository.Add(geolocalizacion);
+            await _geolocalizacionRepository.AddAsync(geolocalizacion);
             var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:SearchGeolocalization"));
-            await endpoint.Send<ISearchGeolocalization>(model);
 
-            return Accepted(geolocalizacion.Id);
+            await endpoint.Send<ISearchGeolocalization>(new
+            {
+                Id = geolocalizacion.Id,
+                Calle = geolocalizacion.Calle,
+                Numero = geolocalizacion.Numero,
+                Ciudad = geolocalizacion.Ciudad,
+                CodigoPostal = geolocalizacion.CodigoPostal,
+                Provincia = geolocalizacion.Provincia,
+                Pais = geolocalizacion.Pais
+            });
+
+            return Accepted(new {Id = geolocalizacion.Id});
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(string id)
         {
-            var geolocalizacion = await _geolocalizacionRepository.Get(Guid.Parse(id));
-            return Ok(geolocalizacion);
+            var geolocalizacion = await _geolocalizacionRepository.GetAsync(Guid.Parse(id));
+            return Ok(new ResultModel(geolocalizacion.Id,
+                geolocalizacion.Latitud,
+                geolocalizacion.Longitud,
+                geolocalizacion.Estado));
         }
     }
 }

@@ -18,12 +18,17 @@ namespace javis86.geolocalizador.api.Infrastructure
             _clientesCollection = database.GetCollection<Geolocalizacion>(settings.CollectionName);
         }
         
-        public async Task Add(Geolocalizacion geolocalizacion)
+        public async Task AddAsync(Geolocalizacion geolocalizacion)
         {
             await _clientesCollection.InsertOneAsync(geolocalizacion);
         }
+        
+        public async Task UpdateAsync(Geolocalizacion geolocalizacion)
+        {
+            await _clientesCollection.ReplaceOneAsync(data => data.Id == geolocalizacion.Id, geolocalizacion);
+        }
 
-        public async Task<Geolocalizacion> Get(Guid id)
+        public async Task<Geolocalizacion> GetAsync(Guid id)
         {
             var cli = await _clientesCollection.FindAsync(x =>  x.Id == id);
             return await cli.FirstOrDefaultAsync();
